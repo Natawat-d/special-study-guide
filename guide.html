@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;600&family=Newsreader:opsz,wght@6..72,400;6..72,600&family=Sarabun:wght@400;600&display=swap">
 <script>document.documentElement.className += " js";</script>
 <style>
-  /* Layout: a rail of seven chapters beside one reading column; one chapter on screen at a time.
+  /* Layout: a rail of eight chapters beside one reading column; one chapter on screen at a time.
      Diagrams are drawn at most 600 px wide so they stay readable on a narrow screen.
      Tokens and faces follow the project's other pages (Playbook, Primer). */
   :root{
@@ -217,6 +217,45 @@
   svg .lnA{fill:none;stroke:var(--accent);stroke-width:2}
   svg .lnCd{fill:none;stroke:var(--clay);stroke-width:2;stroke-dasharray:6 4}
   svg .ah{fill:var(--faint)}
+  svg .pL{fill:var(--s1);stroke:var(--surface);stroke-width:2} svg .pR{fill:var(--s2);stroke:var(--surface);stroke-width:2}
+  svg .lnB{fill:none;stroke:var(--ink-2);stroke-width:1.5}
+
+  /* ---- system map: the stages run down the left; what was added, removed or checked sits on the right ---- */
+  ol.sys{list-style:none;margin:0;padding:0;max-width:none}
+  ol.sys>li{position:relative;display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:0 28px;align-items:start;margin:0;padding:0 0 26px}
+  ol.sys>li:last-child{padding-bottom:0}
+  ol.sys>li:not(:last-child)::before{content:"";position:absolute;left:27px;top:0;bottom:7px;width:2px;background:var(--line-2)}
+  ol.sys>li:not(:last-child)::after{content:"";position:absolute;left:22px;bottom:0;border:6px solid transparent;border-top:8px solid var(--faint);border-bottom:0}
+  .st,.sd{position:relative;border-radius:8px;line-height:1.45}
+  .st{z-index:1;background:var(--accent-soft);box-shadow:inset 0 0 0 1.5px var(--accent);padding:11px 14px 12px}
+  .st .k,.sd .k{display:block;font-family:var(--data);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-ink);margin:0 0 3px}
+  .st b{display:block;font-family:var(--display);font-size:1.04rem;line-height:1.25}
+  .st .d{display:block;font-size:.9rem;color:var(--ink-2);margin-top:3px}
+  .st.end{background:var(--accent);box-shadow:none}
+  .st.end .k,.st.end b,.st.end .d{color:var(--surface)}
+  .sd{z-index:1;background:var(--surface);border:1px solid var(--line-2);padding:9px 12px 10px;font-size:.88rem;color:var(--ink-2);margin-top:8px}
+  .sd .k{color:var(--muted)}
+  .sd::before{content:"";position:absolute;left:-29px;top:20px;width:28px;border-top:2px solid var(--line-2)}
+  .sd.in{background:var(--gold-soft);border-color:var(--gold)} .sd.in .k{color:var(--gold)} .sd.in::before{border-top-color:var(--gold)}
+  .sd.out{background:var(--clay-soft);border:1.5px dashed var(--clay)} .sd.out .k{color:var(--clay)} .sd.out::before{border-top:2px dashed var(--clay)}
+  a.sd{display:block;text-decoration:none;border-color:var(--accent)}
+  a.sd:hover{background:var(--raised)}
+  a.sd b{color:var(--accent-ink);font-family:var(--display);font-size:1rem}
+  .via{grid-column:1 / -1;margin:7px 0 0;padding-left:44px;font-family:var(--data);font-size:.7rem;line-height:1.4;color:var(--muted);max-width:none}
+  .sys-side{margin:22px 0 0;padding:11px 14px;border:1.5px dashed var(--line-2);border-radius:8px;font-size:.9rem;color:var(--ink-2);max-width:none}
+  .key i.kst{background:var(--accent-soft);box-shadow:inset 0 0 0 1.5px var(--accent)}
+  .key i.kin{background:var(--gold-soft);box-shadow:inset 0 0 0 1.5px var(--gold)}
+  .key i.kout{background:var(--clay-soft);border:1.5px dashed var(--clay)}
+  .key i.knt{background:var(--surface);box-shadow:inset 0 0 0 1px var(--line-2)}
+
+  /* ---- horizon cards in "Which model wins?" ---- */
+  .hz h4{font-size:1.15rem}
+  .hz dl{margin:0 0 .7em}
+  .hz dd b{font-family:var(--data);font-size:.86em;font-weight:600}
+  .hz .pill{display:inline-block;margin:0 0 6px}
+  .hz .verdict{font-size:.9rem;line-height:1.45;margin:0}
+  .rulers td{font-size:.9rem}
+  td .kind{font-family:var(--data);font-size:.72rem;color:var(--muted);letter-spacing:.02em}
 
   /* ---- tables, notes, details, code ---- */
   .scroll{overflow-x:auto;margin:1.1em 0 1.3em;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
@@ -277,6 +316,12 @@
     .pill{justify-self:start}
     ol.steps>li{padding-left:46px}
     figure{padding:14px 12px 13px}
+    ol.sys>li{grid-template-columns:minmax(0,1fr)}
+    .sd{margin-left:44px}
+    .sd::before{left:-16px;width:15px}
+    ol.sys>li:last-child .sd::before{display:none}
+    .tight td.n,.tight th.n{padding-left:4px;padding-right:9px}
+    .tight td:first-child,.tight th:first-child{padding-right:6px}
   }
   @media print{
     .rail{display:none} .shell{display:block}
@@ -298,21 +343,22 @@
     <a href="#models">What each model adds</a>
     <a href="#code">How it was coded</a>
     <p class="rail-h">Judge it</p>
+    <a href="#winner">Which model wins?</a>
     <a href="#results">Results and limits</a>
     <a href="#choices">Why these choices</a>
     <p class="rail-h">Present it</p>
     <a href="#seminar">For the seminar</a>
   </nav>
-  <p class="rail-foot"><span>Report of 10 November 2026<br>120 pages, 71 references<br></span><a href="literature.html">Papers to highlight</a><br><a href="./">All pages</a><br><button type="button" id="showall" aria-pressed="false">Show all chapters on one page</button></p>
+  <p class="rail-foot"><span>Report of 11 November 2026<br>129 pages, 71 references<br></span><a href="special-study-report.pdf">The full report (PDF)</a><br><a href="literature.html">Papers to highlight</a><br><a href="./">All pages</a><br><button type="button" id="showall" aria-pressed="false">Show all chapters on one page</button></p>
 </aside>
 
 <main>
 <section class="ch" id="start">
-  <p class="kicker">AIT Special Study &middot; report as of 10 November 2026</p>
+  <p class="kicker">AIT Special Study &middot; report as of 11 November 2026</p>
   <h1>The Special Study, in plain words</h1>
   <p class="lede">How well can simple, standard methods forecast satellite soil moisture a few days ahead, at one place in Pathum Thani? This guide explains the report, so that you can explain it to others.</p>
   <ul class="facts">
-    <li><b>120</b><span>pages in the report</span></li>
+    <li><b>129</b><span>pages in the report</span></li>
     <li><b>1</b><span>selected grid cell</span></li>
     <li><b>2, 3, 5, 8</b><span>days ahead</span></li>
     <li><b>981</b><span>days with a usable reading, in 9 years</span></li>
@@ -332,20 +378,70 @@
   <h3>The answer, in five findings</h3>
   <ol class="findings">
     <li><b>Smoothing does most of the work.</b><span>Just averaging the last three readings beats "tomorrow equals today" at every horizon.</span></li>
-    <li><b>Learning adds a small gain at 8 days.</b><span>Ridge regression adds +0.060 on top of that average. It is small, and it sits close to the pass line of the strict test.</span></li>
+    <li><b>Learning adds a small gain at 8 days.</b><span>Ridge regression adds +0.060 on top of that average: about 6% less error. It is small, and it sits close to the pass line of the strict test. <a href="#winner">Which model wins?</a></span></li>
     <li><b>Radar and weather add nothing measurable.</b><span>Adding Sentinel-1 or weather changes skill by at most 0.02. That is "not measurable here", not "useless".</span></li>
     <li><b>Wetting after heavy rain is not forecast.</b><span>No input knows about rain that has not fallen yet.</span></li>
     <li><b>A one-number rule is hard to beat.</b><span>"Seasonal normal plus a fixed share of the recent departure" scores as well as the learned models.</span></li>
   </ol>
+
+  <h3>The whole study on one page</h3>
+  <p>From the satellite to the answer. Follow the line down: each stage hands a smaller, cleaner set of data to the next.</p>
+  <figure>
+    <figcaption>The whole study, top to bottom. Each box on the left is a stage; the box beside it shows what was added, removed or checked there. The small print between stages is what passes down.</figcaption>
+    <ol class="sys" aria-label="The stages of the study">
+      <li>
+        <div class="st"><span class="k">Data</span><b>SMAP L3 satellite readings</b><span class="d">Surface soil moisture on a 9&nbsp;km grid, 2016 to 2024, from the morning and evening passes. Every reading carries a quality flag.</span></div>
+        <div class="sd"><span class="k">Compared, never used to forecast</span>SMAP L4, ECMWF and MERRA-2 soil moisture, set against one another. None of them is ground truth.</div>
+        <p class="via">124,570 readings in the 53 cells of the province</p>
+      </li>
+      <li>
+        <div class="st"><span class="k">Quality scan, whole province</span><b>Keep only the readings NASA recommends</b><span class="d">Quality flag 0 or 8. This scan is the study's only province-wide result.</span></div>
+        <div class="sd out"><span class="k">Removed</span>All 33 cells flagged urban, 76.2% of the province. Not one of them has a recommended reading.</div>
+        <p class="via">20 non-urban cells remain</p>
+      </li>
+      <li>
+        <div class="st"><span class="k">One cell</span><b>Cell (3,6), in the east of Thanyaburi</b><span class="d">One of only two non-urban cells at least 90% inside the province, and the one with more usable days (981 against 946). Of its 2,376 readings, 1,672 are recommended.</span></div>
+        <div class="sd"><span class="k">Keep in mind</span>The satellite senses about 36 by 47&nbsp;km around the cell. A later check repeats the 8-day test at all 20 non-urban cells.</div>
+        <p class="via">981 days with a usable reading</p>
+      </li>
+      <li>
+        <div class="st"><span class="k">Pairs</span><b>Pair each reading with a later one</b><span class="d">Exactly 2, 3, 5 or 8 days later. The later reading is the answer the forecast is judged against.</span></div>
+        <div class="sd out"><span class="k">Too few to test</span>1 and 7 days: 41 pairs each. 4 days: none. The orbit rarely or never gives these gaps.</div>
+        <p class="via">333, 601, 598 and 872 pairs</p>
+      </li>
+      <li>
+        <div class="st"><span class="k">Inputs</span><b>Describe the issue day with nine numbers</b><span class="d">The last four readings, how old the three earlier ones are, and the season. All are dated on or before the issue day.</span></div>
+        <div class="sd in"><span class="k">Added, one step at a time</span>+ Sentinel-1 radar: VV, VH and the scene's age.<br>+ Weather: rain, temperature and solar radiation over 3, 7 and 30 days.</div>
+      </li>
+      <li>
+        <div class="st"><span class="k">Forecasters</span><b>Seven methods each make a forecast</b><span class="d">Four simple rules: persistence, seasonal normal, damped persistence, mean of three. Three learned models: ridge regression, random forest, XGBoost.</span></div>
+      </li>
+      <li>
+        <div class="st"><span class="k">Fair test</span><b>Walk forward, one test year at a time</b><span class="d">Train on the earlier years, choose the settings on the last of them, then forecast the next year. Test years 2018 to 2024 (from 2019 at 2 days).</span></div>
+        <p class="via">1,710 test forecasts per method</p>
+      </li>
+      <li>
+        <div class="st"><span class="k">Scoring</span><b>Score and test every method</b><span class="d">Typical error (RMSE), skill against persistence, gain over the mean of three, and a significance test adjusted for twelve comparisons.</span></div>
+        <div class="sd"><span class="k">Then checked</span>Without borderline training pairs, with 21 random seeds, other targets, 20 cells, a wider tuning range, and a test for nested models.</div>
+      </li>
+      <li>
+        <div class="st end"><span class="k">Answer</span><b>A benchmark for the thesis</b><span class="d">The scores, and the test, that a thesis model must beat at this cell.</span></div>
+        <a class="sd" href="#winner"><span class="k">Read next</span><b>Which model wins? &rarr;</b><br>The champion, and what its gain means.</a>
+      </li>
+    </ol>
+    <p class="sys-side"><strong>Beside the main line, a side study:</strong> the same kind of benchmark on SMAP L4, a smooth, model-filled product, at 1, 3 and 7 days, at the original study point. On L4 no model beat persistence. That sentence is about L4 only: on L3, the main line above, most methods do beat persistence (<a href="#ruler1">see the table</a>). L4 is a different product and place, so the two results are not compared directly.</p>
+    <div class="key"><span><i class="kst"></i>stage</span><span><i class="kin"></i>input added</span><span><i class="kout"></i>removed, or too few</span><span><i class="knt"></i>note or check</span></div>
+  </figure>
 
   <h3>Where to go next</h3>
   <div class="cards">
     <a class="card" href="#pipeline"><h4>How a forecast is made</h4><p>The whole pipeline in seven steps, followed with one real forecast from 2 January 2024.</p></a>
     <a class="card" href="#models"><h4>What each model adds</h4><p>Seven forecasters, how each one makes its number, and how much each contributes.</p></a>
     <a class="card" href="#code"><h4>How it was coded</h4><p>Which file does what, and the main script explained a few lines at a time.</p></a>
+    <a class="card" href="#winner"><h4>Which model wins?</h4><p>The champion question answered: the two rulers, the 8-day race, and what a gain of +0.060 means.</p></a>
     <a class="card" href="#results"><h4>Results and limits</h4><p>The five findings with their charts, how solid the main one is, and the honest limits.</p></a>
     <a class="card" href="#choices"><h4>Why these choices</h4><p>The data, the cell, the horizons, the inputs and the settings, each with its reason.</p></a>
-    <a class="card" href="#seminar"><h4>For the seminar</h4><p>Papers to name, sentences to say, what changed on 10 November, and your next step.</p></a>
+    <a class="card" href="#seminar"><h4>For the seminar</h4><p>Papers to name, sentences to say, what changed on 10 and 11 November, and your next step.</p></a>
   </div>
   <a class="next" href="#pipeline"><div><span>Next</span>How a forecast is made</div></a>
 </section>
@@ -589,7 +685,7 @@
   </table></div>
   <ul>
     <li><strong>Ridge at 8 days (+0.060)</strong> is the result the report stands on. It also passes when a few borderline training pairs are removed.</li>
-    <li><strong>The random forest at 8 days (+0.081)</strong> passes in the main run only. A later check showed that it depends on one tuning choice.</li>
+    <li><strong>The random forest at 8 days (+0.081)</strong> passes in the main run only. A later check showed that it is sensitive to settings chosen on a single year.</li>
     <li><strong>Ridge at 3 days (+0.042)</strong> does not pass the strict test. The report calls it suggestive.</li>
   </ul>
 
@@ -832,6 +928,143 @@ def make(kind, g):
 ../.venv/bin/python soil_moisture_l3_v3.py --pixel 3,6 --weather px3_6 --save-pred --tag main_px3_6</pre></div>
   <p>The first step needs a NASA Earthdata login token, which is kept in a private file outside git. The full runbook, with every check, is <code>code/README.md</code>.</p>
   <p><strong>Tools.</strong> Python 3.14 with pandas 3.0, NumPy 2.5, SciPy 1.18, scikit-learn 1.9 and XGBoost 3.4.</p>
+  <a class="next" href="#winner"><div><span>Next</span>Which model wins?</div></a>
+</section>
+
+<section class="ch" id="winner">
+  <p class="kicker">Judge it</p>
+  <h2 class="ch-title">Which model wins?</h2>
+  <p class="oneline"><span>In one line</span>There is no single champion. The plain average of the last three readings does most of the work. At 8 days ridge regression makes about 6% less error than that average, and it is the one learned result that holds up.</p>
+
+  <div class="th" lang="th">
+    <h4>ตอบสั้น ๆ</h4>
+    <ul>
+      <li>ไม่มี "แชมป์" ตัวเดียวที่ชนะทุกระยะเวลา</li>
+      <li>ผู้ชนะในทางปฏิบัติคือ<strong>ค่าเฉลี่ย 3 ครั้งล่าสุด</strong> ไม่ต้องเรียนรู้อะไรเลย แต่ทำงานส่วนใหญ่ไปแล้ว</li>
+      <li>โมเดลเรียนรู้ที่ชนะจริงมีตัวเดียว คือ <strong>Ridge ที่ 8 วัน</strong> ความคลาดเคลื่อนน้อยกว่าค่าเฉลี่ย 3 ครั้งประมาณ 6% (gain = +0.060) และผ่านการทดสอบทางสถิติแบบเข้มงวด แต่ผ่านแบบเฉียดฉิว</li>
+      <li><strong>Gain</strong> คือ "ลดความคลาดเคลื่อนได้กี่เปอร์เซ็นต์ เมื่อเทียบกับค่าเฉลี่ย 3 ครั้ง" ไม่ใช่ปริมาณน้ำ ในหน่วยจริงคือประมาณ 0.002 m³/m³ หรือราว 0.2 จุดเปอร์เซ็นต์ของน้ำในดิน</li>
+      <li>Random forest มีความคลาดเคลื่อนต่ำที่สุดที่ 5 และ 8 วัน แต่ผลที่ 8 วันขึ้นกับการตั้งค่าโมเดลที่เลือกจากข้อมูลเพียงปีเดียว จึงไม่ถูกยกให้เป็นแชมป์</li>
+      <li>คำถาม "ชนะ persistence ไหม": <strong>ชนะ</strong> บน SMAP L3 ซึ่งเป็นข้อมูลหลักของงานนี้ ที่ 3, 5 และ 8 วัน ทุกวิธีชนะ ยกเว้นค่าปกติตามฤดูกาล ส่วนประโยค "ไม่มีโมเดลไหนชนะ persistence" พูดถึง <strong>SMAP L4</strong> ซึ่งเป็นการศึกษาเสริม คนละชุดข้อมูลและคนละจุด</li>
+    </ul>
+  </div>
+
+  <ul class="facts">
+    <li><b>+0.060</b><span>ridge's gain over the mean of three, 8 days</span></li>
+    <li><b>6%</b><span>less error than the plain average</span></li>
+    <li><b>0.0022</b><span>the same gain in m&sup3;/m&sup3;</span></li>
+    <li><b>0.022</b><span>adjusted p: a pass, close to 0.05</span></li>
+  </ul>
+
+  <h3>Two rulers, two different questions</h3>
+  <p>Every result in the report is measured with one of two rulers. Both turn an error into a share: how much smaller it is than a reference's error.</p>
+  <div class="scroll rulers"><table>
+    <thead><tr><th>Ruler</th><th>The question it answers</th><th>Ridge regression at 8 days</th></tr></thead>
+    <tbody>
+      <tr><td>Skill</td><td>How much smaller is the error than that of <em>persistence</em>, "tomorrow equals today"?</td>
+        <td>1 &minus; 0.03481 &divide; 0.03980 = <strong>+0.125</strong>, so about 12.5% less error</td></tr>
+      <tr><td>Gain</td><td>How much smaller is the error than that of the <em>mean of three</em>, the plain average of the last three readings?</td>
+        <td>1 &minus; 0.03481 &divide; 0.03705 = <strong>+0.060</strong>, so about 6% less error</td></tr>
+    </tbody>
+  </table></div>
+  <p class="mono" style="color:var(--muted)">The errors are shown to five decimals here so that the sums work out. Elsewhere they are rounded to four.</p>
+  <p>Why two rulers? Persistence is the easy ruler. The plain mean of three clears it at every horizon, and it needs no training at all. So a learned model earns its place only by beating <em>that average</em>. For a learned model the number that counts is the <strong>gain</strong>, not the skill.</p>
+
+  <h3 id="ruler1">First ruler: did they beat persistence?</h3>
+  <p>Yes, on SMAP L3, the product this study forecasts. The table gives each method's skill against persistence. Above zero means less error than "tomorrow equals today". A shaded number is clearly above zero: the whole range the data allow for it (the 95% interval) lies above zero.</p>
+  <div class="scroll"><table class="tight">
+    <thead><tr><th>Skill against persistence</th><th class="n">2 days</th><th class="n">3 days</th><th class="n">5 days</th><th class="n">8 days</th></tr></thead>
+    <tbody>
+      <tr><td>Seasonal normal<br><span class="kind">simple reference</span></td><td class="n">&minus;0.164</td><td class="n">+0.025</td><td class="n">&minus;0.068</td><td class="n">&minus;0.084</td></tr>
+      <tr><td>Damped persistence<br><span class="kind">simple reference</span></td><td class="n">+0.008</td><td class="n"><b title="Clearly above zero: the 95% interval lies above zero">+0.133</b></td><td class="n"><b title="Clearly above zero: the 95% interval lies above zero">+0.054</b></td><td class="n"><b title="Clearly above zero: the 95% interval lies above zero">+0.089</b></td></tr>
+      <tr><td>Mean of three<br><span class="kind">simple reference</span></td><td class="n"><b title="Clearly above zero: the 95% interval lies above zero">+0.147</b></td><td class="n"><b title="Clearly above zero: the 95% interval lies above zero">+0.204</b></td><td class="n"><b title="Clearly above zero: the 95% interval lies above zero">+0.144</b></td><td class="n"><b title="Clearly above zero: the 95% interval lies above zero">+0.069</b></td></tr>
+      <tr><td>Ridge regression<br><span class="kind">learned model</span></td><td class="n"><b title="Clearly above zero: the 95% interval lies above zero">+0.106</b></td><td class="n"><b title="Clearly above zero: the 95% interval lies above zero">+0.238</b></td><td class="n"><b title="Clearly above zero: the 95% interval lies above zero">+0.136</b></td><td class="n"><b title="Clearly above zero: the 95% interval lies above zero">+0.125</b></td></tr>
+      <tr><td>Random forest<br><span class="kind">learned model</span></td><td class="n">+0.070</td><td class="n"><b title="Clearly above zero: the 95% interval lies above zero">+0.237</b></td><td class="n"><b title="Clearly above zero: the 95% interval lies above zero">+0.172</b></td><td class="n"><b title="Clearly above zero: the 95% interval lies above zero">+0.144</b></td></tr>
+      <tr><td>XGBoost<br><span class="kind">learned model</span></td><td class="n">&minus;0.053</td><td class="n"><b title="Clearly above zero: the 95% interval lies above zero">+0.192</b></td><td class="n"><b title="Clearly above zero: the 95% interval lies above zero">+0.139</b></td><td class="n"><b title="Clearly above zero: the 95% interval lies above zero">+0.120</b></td></tr>
+      </tbody>
+  </table></div>
+  <ul>
+    <li><strong>At 3, 5 and 8 days every method except the seasonal normal clearly beats persistence.</strong> Ridge removes 11 to 24% of persistence's error over the four horizons. The closest call is the mean of three at 8 days, whose range starts at +0.006.</li>
+    <li><strong>At 2 days only the mean of three and ridge clearly do.</strong> With 203 test forecasts there, the other four cannot be told apart from persistence. That is not the same as being equal to it.</li>
+    <li><strong>Two methods score below zero somewhere</strong>: the seasonal normal at 2, 5 and 8 days, and XGBoost at 2 days. Neither is clearly below, because those ranges include zero.</li>
+    <li><strong>"No model beat persistence" is a different result.</strong> That sentence, on the first page and under Results, is about SMAP L4, the side study: a smoother product, at another point, at 1, 3 and 7 days. There the best learned model scored &minus;0.131, &minus;0.066 and &minus;0.041 (report Table 4.6). L4 hardly changes from one day to the next (its day-to-day correlation is 0.987, report Table 4.7), so copying today's value leaves little for a model to add.</li>
+  </ul>
+
+  <h3>The 8-day race, on one ruler</h3>
+  <p>Here are the typical errors at 8 days, lowest at the bottom. Read it as two steps down.</p>
+  <figure>
+    <figcaption>Typical error (RMSE) of five methods over the 639 test forecasts at 8 days. The ruler is zoomed in, so the gaps look larger than they are; the chart under How a forecast is made starts at zero.</figcaption>
+    <div class="dia"><svg viewBox="0 0 460 392" style="max-width:460px" role="img" aria-label="The typical error at 8 days on one ruler, with less error lower down. Persistence 0.0398. Mean of three 0.0371: 7% less error, with no learning. Damped persistence 0.0363. Ridge regression 0.0348: 6% less again than the mean of three. Random forest 0.0341."><line class="lnT" x1="180" y1="40" x2="180" y2="360"/><text class="t2" x="180" y="26" text-anchor="middle">more error</text><text class="t2" x="180" y="382" text-anchor="middle">less error</text><line class="lnB" x1="152" y1="59.21794195980442" x2="152" y2="190.68127259475781"/><line class="lnB" x1="152" y1="59.21794195980442" x2="160" y2="59.21794195980442"/><line class="lnB" x1="152" y1="190.68127259475781" x2="160" y2="190.68127259475781"/><text class="t tb" x="142" y="112.94960727728112" text-anchor="end">smoothing</text><text class="t" x="142" y="128.94960727728113" text-anchor="end">7% less error</text><text class="t2" x="142" y="144.94960727728113" text-anchor="end">no learning</text><line class="lnB" x1="152" y1="194.68127259475781" x2="152" y2="301.3312211428457"/><line class="lnB" x1="152" y1="194.68127259475781" x2="160" y2="194.68127259475781"/><line class="lnB" x1="152" y1="301.3312211428457" x2="160" y2="301.3312211428457"/><text class="t tb" x="142" y="236.00624686880178" text-anchor="end">learning on top</text><text class="t" x="142" y="252.00624686880178" text-anchor="end">6% less again</text><text class="t2" x="142" y="268.0062468688018" text-anchor="end">the gain: +0.060</text><circle class="rg" cx="180" cy="301.3" r="12"/><circle class="pR" cx="180" cy="59.2" r="7"/><text class="t" x="200" y="63.2" text-anchor="start">Persistence <tspan class="t2">0.0398</tspan></text><text class="t2" x="200" y="78.2" text-anchor="start" font-size="11">the starting point</text><circle class="pR" cx="180" cy="192.7" r="7"/><text class="t" x="200" y="196.7" text-anchor="start">Mean of three <tspan class="t2">0.0371</tspan></text><text class="t2" x="200" y="211.7" text-anchor="start" font-size="11">the bar to clear</text><circle class="pR" cx="180" cy="231.2" r="7"/><text class="t" x="200" y="235.2" text-anchor="start">Damped persistence <tspan class="t2">0.0363</tspan></text><text class="t2" x="200" y="250.2" text-anchor="start" font-size="11">best simple rule here</text><circle class="pL" cx="180" cy="301.3" r="7"/><text class="t tb" x="200" y="305.3" text-anchor="start">Ridge regression <tspan class="t2">0.0348</tspan></text><text class="t2" x="200" y="320.3" text-anchor="start" font-size="11">the champion: passes the test</text><circle class="pL" cx="180" cy="337.7" r="7"/><text class="t" x="200" y="341.7" text-anchor="start">Random forest <tspan class="t2">0.0341</tspan></text><text class="t2" x="200" y="356.7" text-anchor="start" font-size="11">lowest, but rests on tuning</text></svg></div>
+    <p class="after">XGBoost (0.0350) sits just above ridge and is left off to keep the labels apart. Ridge's typical miss is 0.0022&nbsp;m&sup3;/m&sup3; smaller than the plain average's.</p>
+  </figure>
+  <ul>
+    <li><strong>Step one, smoothing.</strong> Averaging the last three readings removes 7% of persistence's error. No learning is involved.</li>
+    <li><strong>Step two, learning.</strong> Ridge removes another 6% of what is left. That second step is the gain, and it is the report's headline number.</li>
+  </ul>
+
+  <h3>Second ruler: the gain, horizon by horizon</h3>
+  <p>The winner changes with how far ahead the forecast is. A gain only counts if it passes the strict test, which allows for the twelve comparisons made between the learned models and the mean of three.</p>
+  <div class="cards" style="grid-template-columns:repeat(auto-fit,minmax(250px,1fr))">
+    <div class="card hz">
+      <h4>2 days ahead</h4>
+      <dl>
+        <dt>Lowest error</dt><dd>Mean of three <b>0.0347</b></dd>
+        <dt>Best simple rule</dt><dd>Mean of three <b>0.0347</b></dd>
+        <dt>Gain over the mean of three</dt><dd>Ridge <b>&minus;0.049</b>, Forest <b>&minus;0.090</b>, XGBoost <b>&minus;0.235</b></dd>
+      </dl>
+      <span class="pill no">Plain average wins</span>
+      <p class="verdict">Every learned model has a larger error than the mean of three. A test made for this question finds nothing for learning to add at 2 days.</p>
+    </div>
+    <div class="card hz">
+      <h4>3 days ahead</h4>
+      <dl>
+        <dt>Lowest error</dt><dd>Ridge regression <b>0.0315</b></dd>
+        <dt>Best simple rule</dt><dd>Mean of three <b>0.0329</b></dd>
+        <dt>Gain over the mean of three</dt><dd>Ridge <b>+0.042</b>, Forest <b>+0.040</b>, XGBoost <b>&minus;0.016</b></dd>
+      </dl>
+      <span class="pill near">Suggestive only</span>
+      <p class="verdict">Ridge has the lowest error, about 4% below the plain average. Allowing for twelve comparisons, its adjusted p is 0.092, above the 0.05 line, so it does not pass.</p>
+    </div>
+    <div class="card hz">
+      <h4>5 days ahead</h4>
+      <dl>
+        <dt>Lowest error</dt><dd>Random forest <b>0.0348</b></dd>
+        <dt>Best simple rule</dt><dd>Mean of three <b>0.0360</b></dd>
+        <dt>Gain over the mean of three</dt><dd>Ridge <b>&minus;0.010</b>, Forest <b>+0.032</b>, XGBoost <b>&minus;0.007</b></dd>
+      </dl>
+      <span class="pill no">Could be luck</span>
+      <p class="verdict">The random forest has the lowest error, but its gain over the plain average has an adjusted p of 0.86. The test cannot tell it from luck.</p>
+    </div>
+    <div class="card hz">
+      <h4>8 days ahead</h4>
+      <dl>
+        <dt>Lowest error</dt><dd>Random forest <b>0.0341</b></dd>
+        <dt>Best simple rule</dt><dd>Damped persistence <b>0.0363</b></dd>
+        <dt>Gain over the mean of three</dt><dd>Ridge <b>+0.060</b>, Forest <b>+0.081</b>, XGBoost <b>+0.054</b></dd>
+      </dl>
+      <span class="pill ok">Ridge passes</span>
+      <p class="verdict">Ridge's gain of +0.060 passes: adjusted p 0.022, and 0.024 in the purged run. The forest's error is lower still, but in the purged run its adjusted p rises to 0.12: its gain is sensitive to settings chosen on a single year.</p>
+    </div>
+  </div>
+
+  <h3>So who is the champion?</h3>
+  <ul class="checks">
+    <li><span class="pill ok">Practical</span><span><strong>The mean of three.</strong> No learning and no settings. It is the best of all at 2 days and never more than 9% behind the lowest error at the other horizons. If you must pick one method to use, pick this one.</span></li>
+    <li><span class="pill ok">Learned</span><span><strong>Ridge regression at 8 days.</strong> A gain of +0.060 that passes in the main run (adjusted p 0.022) and in the purged run (0.024), counting the report's twelve comparisons. It is the only learned result that passes both. The report also picks ridge as the bar for the thesis because it has no random seed and its weights can be read directly.</span></li>
+    <li><span class="pill near">Not crowned</span><span><strong>The random forest.</strong> Lowest error at 5 and 8 days. But its 8-day gain (+0.081) fails in the purged run (adjusted p 0.12). A later check traced this to its settings, which are chosen on a single year. Count all 48 comparisons as one group instead, and the forest's main-run gain is the only 8-day gain that passes (0.033), while ridge's does not (about 0.10). So which model looks like the champion depends on the counting rule: say so if asked.</span></li>
+    <li><span class="pill near">Ties</span><span><strong>The one-number rule.</strong> Seasonal normal plus a fixed share of the recent departure scores as well as the learned models. It was found after the results were known, so it is a check, not a contender.</span></li>
+    <li><span class="pill no">Open</span><span><strong>Ridge against damped persistence.</strong> At 8 days damped persistence is the best simple rule (0.0363 against 0.0371 for the mean of three). Ridge's error is lower again, but that difference has not been tested. Expect the question.</span></li>
+  </ul>
+
+  <h3>How big is the gain, really?</h3>
+  <ul>
+    <li><strong>+0.060 is a share, not an amount of water.</strong> It says ridge removes 6% of the error that the plain average leaves.</li>
+    <li><strong>In water</strong> it is about 0.002&nbsp;m&sup3;/m&sup3;. A reading of 0.37 means 37% of the soil's volume is water, so the gain is about 0.2 of a percentage point, while the typical miss is still about 3.5 points.</li>
+    <li><strong>It is close to the line.</strong> With a wider tuning range, tried afterwards, the adjusted p is 0.051. Counting all 48 comparisons as one group, it is about 0.10. Without 2024, the best year, the gain is +0.046. See <a href="#solid">how solid the main result is</a>.</li>
+    <li><strong>It is still positive in every check</strong>: in 6 of the 7 test years, and at all 20 non-urban cells.</li>
+  </ul>
+
+  <h3>One sentence for the seminar</h3>
+  <div class="note good"><p>"No single model wins. Averaging the last three readings does most of the work; at 8 days ridge regression makes about 6% less error than that average, a gain of +0.060, which passes the strict test but sits close to the line."</p></div>
   <a class="next" href="#results"><div><span>Next</span>Results and limits</div></a>
 </section>
 
@@ -872,7 +1105,7 @@ def make(kind, g):
     <div class="axis" style="--labw:4.6rem;--valw:3.3rem"><span></span><div><span>&minus;0.10</span><span>0</span><span>+0.10</span></div><span></span></div>
     <div class="key"><span><i></i>passes the strict test</span><span><i class="out"></i>does not pass</span><span><i class="chk"></i>later check, not part of the benchmark</span></div>
   </figure>
-  <p>The random forest's 8-day gain is larger (+0.081), but a later check showed that it depends on one tuning choice. That is why ridge regression is the headline model.</p>
+  <p>The random forest's 8-day gain is larger (+0.081), but a later check showed that it is sensitive to settings chosen on a single year. That is why ridge regression is the headline model.</p>
   <p>A test made for this kind of comparison, run last, adds one point. At 5 days there is something to learn beyond the plain average, but ridge regression did not turn it into a better forecast. At 2 days the test finds nothing to learn.</p>
 
   <h3>3. Radar and weather add nothing measurable</h3>
@@ -884,7 +1117,7 @@ def make(kind, g):
   <h3>5. A one-number rule is hard to beat</h3>
   <p>Take the normal value for the time of year, and keep 70 to 82% of how far the recent average is from normal. That rule scores as well as the learned models. It was defined after seeing the results, so it is a check on the study, not a proposed model.</p>
 
-  <div class="note"><p><strong>Separately, on SMAP "L4".</strong> L4 is a smooth, model-filled product. On it, no model beat persistence at 1, 3 or 7 days. It is a different product and place, so it is not a direct comparison with L3.</p></div>
+  <div class="note"><p><strong>Separately, on SMAP "L4".</strong> L4 is a smooth, model-filled product. On it, no model beat persistence at 1, 3 or 7 days. That is about L4 only. On L3, the product behind the five findings above, every method except the seasonal normal clearly beats persistence at 3, 5 and 8 days (<a href="#ruler1">see the table</a>). L4 is a different product and place, so the two are not compared directly.</p></div>
 
   <h3 id="solid">How solid is the main result?</h3>
   <p>The main positive result is ridge regression's 8-day gain of +0.060. It was checked in many ways. The fair summary: <strong>small, positive in every check, and close to the pass line of the strict test.</strong></p>
@@ -1066,7 +1299,7 @@ def make(kind, g):
 <section class="ch" id="seminar">
   <p class="kicker">Present it</p>
   <h2 class="ch-title">For the seminar</h2>
-  <p class="oneline"><span>In one line</span>Two sentences to keep ready, the papers to name, what changed on 10 November, and what to do next.</p>
+  <p class="oneline"><span>In one line</span>Two sentences to keep ready, the papers to name, what changed on 10 and 11 November, and what to do next.</p>
 
   <h3>Two sentences to keep ready</h3>
   <div class="note good"><p><strong>On the main result:</strong> "It is small, it is positive in every check I ran, in six of seven years and at all 20 non-urban cells, and it sits close to the threshold of the strict test."</p></div>
@@ -1093,8 +1326,8 @@ def make(kind, g):
   <div class="note"><p><strong>The gap to state.</strong> Of the 21 studies compared in the report, none reports skill against persistence, none tests the model comparison for significance, none compares L3 with L4 as forecast targets, and none is set in the tropics. The 21 were chosen to represent each generation of methods, not by a systematic search.</p></div>
   <p>The full list, with a line for each paper, is in <code>spacial_study_report/literature_highlights.md</code>.</p>
 
-  <h3>What was done and added on 10 November</h3>
-  <p>Three passes. No benchmark result was changed; every new number comes from data already in the project.</p>
+  <h3>What was done and added on 10 and 11 November</h3>
+  <p>Four passes. No benchmark result was changed; every new number comes from data already in the project.</p>
   <details>
     <summary>First pass: the third review's fixes</summary>
     <div class="in"><div class="scroll"><table>
@@ -1121,8 +1354,8 @@ def make(kind, g):
         <tr><td>Size of the signal</td><td>The reading's own spread is 0.049 m&sup3;/m&sup3;; the remaining error is about two thirds of it.</td><td>&sect;5.1</td></tr>
         <tr><td>Sentinel-1 orbits</td><td>All scenes come from two orbits: 172 (ascending) and 62 (descending).</td><td>&sect;3.4</td></tr>
         <tr><td>Five papers on the soil surface</td><td>How fast the layer SMAP senses dries, and the closest earlier forecasting study. Each was checked and read before it was cited.</td><td>&sect;2.2, &sect;2.4</td></tr>
-        <tr><td>List of Terms</td><td>Twenty special words on one page.</td><td>page xii</td></tr>
-        <tr><td>AI-use statement</td><td>In the words of slide 2. The wording is still to be confirmed.</td><td>&sect;3.10</td></tr>
+        <tr><td>List of Terms</td><td>Twenty special words on one page.</td><td>page ix</td></tr>
+        <tr><td>AI-use statement</td><td>In the words of slide 2. The wording is still to be confirmed with the School.</td><td>&sect;3.10</td></tr>
         <tr><td>Date</td><td>The title page and the title slide now read November 2026.</td><td>title page</td></tr>
       </tbody>
     </table></div></div>
@@ -1138,17 +1371,33 @@ def make(kind, g):
     </table></div></div>
   </details>
 
+  <details open>
+    <summary>Fourth pass, 11 November: the final check the advisor asked for</summary>
+    <div class="in"><div class="scroll"><table>
+      <thead><tr><th>Asked for</th><th>What was done</th><th>Where</th></tr></thead>
+      <tbody>
+        <tr><td>Citations in AIT's author and year form</td><td>Every <code>[12]</code> is now written like (Chan et al., 2018). The reference list is in alphabetical order with full author lists.</td><td>whole report</td></tr>
+        <tr><td>A reason for every decision</td><td>Reasons added where they were missing, and one table that lists all 18 design decisions with the setting and the reason.</td><td>Chapter 3, Table 3.4</td></tr>
+        <tr><td>Results explained, not only shown</td><td>One table that sets each research question beside its key finding, the likely reason and what it implies.</td><td>&sect;4.11, Table 4.24</td></tr>
+        <tr><td>Every figure and table discussed</td><td>All 34 tables and 7 figures checked. One table was never mentioned in the text and now is. The lists at the front show short titles.</td><td>Chapters 2 to 5</td></tr>
+        <tr><td>Equations</td><td>Now 20, each with its symbols explained underneath. The scores and the tests are written out as they are computed. Two symbols that had two meanings were renamed.</td><td>Chapter 3</td></tr>
+        <tr><td>Specific future research</td><td>Seven topics. Each starts from a finding of this study and has a question, a first experiment and supporting papers.</td><td>&sect;5.6, Table 5.3</td></tr>
+      </tbody>
+    </table></div></div>
+  </details>
+
   <h3>Where things stand, and your next step</h3>
   <ul>
-    <li><strong>Report:</strong> 120 pages, 71 references, builds with no errors. The Abstract fits on one page.</li>
-              </ul>
-  <div class="note good"><p><strong>Your next step:</strong> read the Abstract and Chapter 5 of the report with this guide beside you, then the question-and-answer sheet.</p></div>
+    <li><strong>Report:</strong> 129 pages, 71 references, builds with no errors. The Abstract fits on one page.</li>
+  </ul>
+  <div class="note good"><p><strong>Your next step:</strong> read the three new tables of the report, Table 3.4, Table 4.24 and Table 5.3. Together they are the short version of the whole study.</p></div>
 
   <h3>Files</h3>
   <ul>
     <li><code>spacial_study_report/spacial_study_report.pdf</code>: the report</li>
     <li><code>spacial_study_report/report_summary_for_peem.md</code>: a shorter summary as text</li>
-    <li><code>spacial_study_report/revision_10_nov_2026.md</code>: every change, where it is, and what was left undone</li>
+    <li><code>spacial_study_report/revision_11_nov_2026.md</code>: what the fourth pass changed, point by point</li>
+    <li><code>spacial_study_report/revision_10_nov_2026.md</code>: every change of the first three passes, where it is, and what was left undone</li>
     <li><code>spacial_study_progress/final_seminar/committee_qa.md</code>: likely questions with answers</li>
     <li><code>spacial_study_progress/final_seminar/special_study_seminar.pptx</code>: the slides</li>
     <li><code>code/README.md</code>: how to run every step</li>
