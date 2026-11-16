@@ -380,7 +380,7 @@
     <li><b>Smoothing does most of the work.</b><span>Just averaging the last three readings beats "tomorrow equals today" at every horizon.</span></li>
     <li><b>Learning adds a small gain at 8 days.</b><span>Ridge regression adds +0.060 on top of that average: about 6% less error. It is small, and it sits close to the pass line of the strict test. <a href="#winner">Which model wins?</a></span></li>
     <li><b>Radar and weather add nothing measurable.</b><span>Adding Sentinel-1 or weather changes skill by at most 0.02. That is "not measurable here", not "useless".</span></li>
-    <li><b>Wetting after heavy rain is not forecast.</b><span>No input knows about rain that has not fallen yet.</span></li>
+    <li><b>Wetting after more than 20&nbsp;mm of rain is not forecast.</b><span>No input knows about rain that has not fallen yet.</span></li>
     <li><b>A one-number rule is hard to beat.</b><span>"Seasonal normal plus a fixed share of the recent departure" scores as well as the learned models.</span></li>
   </ol>
 
@@ -803,7 +803,7 @@
     <li>
       <h3>Run the checks</h3>
       <ul class="files">
-        <li><code>l3_real_data_evaluation.py</code>: how the forecasts behave on the real record, such as after heavy rain.</li>
+        <li><code>l3_real_data_evaluation.py</code>: how the forecasts behave on the real record, such as after more than 20&nbsp;mm of rain.</li>
         <li><code>l3_climatology_evaluation.py</code> and <code>l3_climatology_sensitivity.py</code>: the same forecasts under other yardsticks.</li>
         <li><code>l3_seed_sensitivity.py</code>: 20 more random seeds for the tree models.</li>
         <li><code>l3_extra_checks.py</code>, <code>l3_spatial_references.py</code>, <code>l3_nested_test.py</code>: the later checks, including all 20 non-urban cells.</li>
@@ -1111,7 +1111,7 @@ def make(kind, g):
   <h3>3. Radar and weather add nothing measurable</h3>
   <p>Adding Sentinel-1 radar, weather, or both changed the skill of ridge regression and the random forest by at most 0.02 at 2, 3 and 5 days, and by &minus;0.025 to +0.004 at 8 days. The chart is under <a href="#models">What each model adds</a>.</p>
 
-  <h3>4. Wetting after heavy rain is not forecast</h3>
+  <h3>4. Wetting after more than 20&nbsp;mm of rain is not forecast</h3>
   <p>When more than 20&nbsp;mm of rain fell inside the 3-day window, the soil reading rose by +0.017 on average. The forecasts barely moved (&minus;0.002 to +0.004). Also, much of the 3-day gain comes from ignoring single readings that jump and come back.</p>
 
   <h3>5. A one-number rule is hard to beat</h3>
