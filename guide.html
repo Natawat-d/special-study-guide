@@ -812,7 +812,7 @@
     </li>
     <li>
       <h3>Write the report and the slides</h3>
-      <ul class="files"><li>The report is LaTeX in <code>spacial_study_report/</code>. The slides are built by <code>build_seminar_deck.py</code>, which stops if a number on a slide does not match a result file.</li></ul>
+      <ul class="files"><li>The report is LaTeX in <code>special_study/report/</code>. The slides are built by <code>build_seminar_deck.py</code>, which stops if a number on a slide does not match a result file.</li></ul>
     </li>
   </ol>
 
@@ -921,11 +921,11 @@ def make(kind, g):
   </ul>
 
   <h3>How to run it</h3>
-  <div class="codeblock"><div class="file">in a terminal, from the code/ folder</div><pre>../.venv/bin/python download_smap_l3_province.py 2016-01-01 2024-12-31
-../.venv/bin/python extract_sentinel1_rtc.py
-../.venv/bin/python l3_province_pixels.py
-../.venv/bin/python download_weather_point.py LAT LON px3_6
-../.venv/bin/python soil_moisture_l3_v3.py --pixel 3,6 --weather px3_6 --save-pred --tag main_px3_6</pre></div>
+  <div class="codeblock"><div class="file">in a terminal, from the special_study/code/ folder</div><pre>../../.venv/bin/python download_smap_l3_province.py 2016-01-01 2024-12-31
+../../.venv/bin/python extract_sentinel1_rtc.py
+../../.venv/bin/python l3_province_pixels.py
+../../.venv/bin/python download_weather_point.py LAT LON px3_6
+../../.venv/bin/python soil_moisture_l3_v3.py --pixel 3,6 --weather px3_6 --save-pred --tag main_px3_6</pre></div>
   <p>The first step needs a NASA Earthdata login token, which is kept in a private file outside git. The full runbook, with every check, is <code>code/README.md</code>.</p>
   <p><strong>Tools.</strong> Python 3.14 with pandas 3.0, NumPy 2.5, SciPy 1.18, scikit-learn 1.9 and XGBoost 3.4.</p>
   <a class="next" href="#winner"><div><span>Next</span>Which model wins?</div></a>
@@ -1324,7 +1324,7 @@ def make(kind, g):
     </tbody>
   </table></div>
   <div class="note"><p><strong>The gap to state.</strong> Of the 21 studies compared in the report, none reports skill against persistence, none tests the model comparison for significance, none compares L3 with L4 as forecast targets, and none is set in the tropics. The 21 were chosen to represent each generation of methods, not by a systematic search.</p></div>
-  <p>The full list, with a line for each paper, is in <code>spacial_study_report/literature_highlights.md</code>.</p>
+  <p>The full list, with a line for each paper, is in <code>special_study/report/literature_highlights.md</code>.</p>
 
   <h3>What was done and added on 10 and 11 November</h3>
   <p>Four passes. No benchmark result was changed; every new number comes from data already in the project.</p>
@@ -1394,12 +1394,12 @@ def make(kind, g):
 
   <h3>Files</h3>
   <ul>
-    <li><code>spacial_study_report/special_study_report.pdf</code>: the report</li>
-    <li><code>spacial_study_report/report_summary_for_peem.md</code>: a shorter summary as text</li>
-    <li><code>spacial_study_report/revision_11_nov_2026.md</code>: what the fourth pass changed, point by point</li>
-    <li><code>spacial_study_report/revision_10_nov_2026.md</code>: every change of the first three passes, where it is, and what was left undone</li>
-    <li><code>spacial_study_progress/final_seminar/committee_qa.md</code>: likely questions with answers</li>
-    <li><code>spacial_study_progress/final_seminar/special_study_seminar.pptx</code>: the slides</li>
+    <li><code>special_study/report/special_study_report.pdf</code>: the report</li>
+    <li><code>special_study/report/report_summary_for_peem.md</code>: a shorter summary as text</li>
+    <li><code>special_study/report/revision_11_nov_2026.md</code>: what the fourth pass changed, point by point</li>
+    <li><code>special_study/report/revision_10_nov_2026.md</code>: every change of the first three passes, where it is, and what was left undone</li>
+    <li><code>special_study/progress/final_seminar/committee_qa.md</code>: likely questions with answers</li>
+    <li><code>special_study/progress/final_seminar/special_study_seminar.pptx</code>: the slides</li>
     <li><code>code/README.md</code>: how to run every step</li>
   </ul>
 
